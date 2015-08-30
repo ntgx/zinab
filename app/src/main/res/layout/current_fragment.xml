@@ -1,0 +1,229 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/current_temp"
+        style="@style/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="18°"
+        android:textColor="#fff"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/low_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/current_temp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/current_temp"
+        android:text="LOW 14°"
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/high_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/current_temp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/current_temp"
+        android:text="HIGH 23°"
+        android:textColor="#fff" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/weather_icon"
+        style="@style/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_temp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="{wi_day_cloudy}"
+        android:textColor="#fff"
+        android:textSize="140sp" />
+
+    <TextView
+        android:id="@+id/weather_description"
+        style="@style/shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Partly Cloudy"
+        android:textColor="#fff"
+        android:textSize="34sp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_description"
+        android:layout_marginTop="20dp">
+
+        <TableRow android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/wind_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="{wi_forecast_io_wind}"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2mps {wi_direction_down_right}"
+                    android:layout_toRightOf="@+id/wind_icon"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/wind_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wind"
+                    android:layout_toRightOf="@+id/wind_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/wind"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/sunset_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="{wi_sunset}"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/sunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:40PM"
+                    android:layout_toRightOf="@+id/sunset_icon"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/sunset_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sunset"
+                    android:layout_toRightOf="@+id/sunset_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/sunset"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+        </TableRow>
+
+        <TableRow android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/chance_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="{wi_umbrella}"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/chance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20%"
+                    android:layout_toRightOf="@+id/chance_icon"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/chance_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chance"
+                    android:layout_toRightOf="@+id/chance_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/chance"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/humidity_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="{wi_humidity}"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="25sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12%"
+                    android:layout_toRightOf="@+id/humidity_icon"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/humidity_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Humidity"
+                    android:layout_toRightOf="@+id/humidity_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_below="@+id/humidity"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>
