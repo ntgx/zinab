@@ -26,13 +26,13 @@ import butterknife.ButterKnife;
 /**
  * Created by Nati on 8/29/2015.
  */
-public class DailyAdapter extends BaseAdapter {
+public class HourlyAdapter extends BaseAdapter {
 
     private final LayoutInflater inflater;
     private Context context;
     private List<DataPoint> items;
 
-    public DailyAdapter(Context context, List<DataPoint> items) {
+    public HourlyAdapter(Context context, List<DataPoint> items) {
         this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,7 +55,7 @@ public class DailyAdapter extends BaseAdapter {
         ViewHolder holder;
         if (view == null) {
 
-            view = inflater.inflate(R.layout.daily_list_item, parent, false);
+            view = inflater.inflate(R.layout.hourly_list_item, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
         } else {
@@ -65,18 +65,12 @@ public class DailyAdapter extends BaseAdapter {
         DataPoint item = items.get(position);
         DateTime dateTime = new DateTime(item.getTime() * 1000L);
 
-        if(position == 0){
-            holder.day.setText(context.getString(R.string.today));
-        }
-
-        else {
-            DateTimeFormatter fmt = DateTimeFormat.forPattern("EEEE");
-            String date = fmt.print(dateTime);
-            holder.day.setText(date);
-        }
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("E ha");
+        String date = fmt.print(dateTime);
+        holder.day.setText(date);
 
         StaticMethods.setupWeatherIcon(item.getIcon(), holder.icon);
-        holder.temp.setText(String.format("%.0f° / %.0f°", item.getTemperatureMax(), item.getTemperatureMin()));
+        holder.temp.setText(String.format("%.0f°", item.getTemperature()));
 
         return view;
     }

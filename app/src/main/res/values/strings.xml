@@ -1,7 +1,18 @@
 <resources>
     <string name="app_name">Zinab</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+    <string name="unit">Unit</string>
+
+    <string name="wind">Wind</string>
+    <string name="sunset">Sunset</string>
+    <string name="chance">Chance</string>
+    <string name="humidity">Humidity</string>
+
+    <string name="low">LOW</string>
+    <string name="high">HIGH</string>
+    <string name="today">Today</string>
 
 </resources>

@@ -1,11 +1,12 @@
 package com.nati.zinab.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.nati.zinab.fragments.CurrentlyFragment;
+import com.nati.zinab.R;
+import com.nati.zinab.fragments.CurrentFragment;
 import com.nati.zinab.fragments.DailyFragment;
 import com.nati.zinab.fragments.HourlyFragment;
 
@@ -14,16 +15,19 @@ import com.nati.zinab.fragments.HourlyFragment;
  */
 public class HomeTabsAdapter extends FragmentPagerAdapter {
 
-    private static String[] TABS = { "አሁን", "Hourly", "Daily" };
-    private CurrentlyFragment currentlyFragment;
+    private static String[] TABS;
+    private Context context;
+    private CurrentFragment currentFragment;
     private HourlyFragment hourlyFragment;
     private DailyFragment dailyFragment;
 
-    public HomeTabsAdapter(FragmentManager fm) {
+    public HomeTabsAdapter(Context context, FragmentManager fm) {
         super(fm);
-        currentlyFragment = CurrentlyFragment.newInstance();
+        this.context = context;
+        currentFragment = CurrentFragment.newInstance();
         hourlyFragment = HourlyFragment.newInstance();
         dailyFragment = DailyFragment.newInstance();
+        TABS = context.getResources().getStringArray(R.array.tabs);
     }
 
     @Override
@@ -31,7 +35,7 @@ public class HomeTabsAdapter extends FragmentPagerAdapter {
 
         switch (index) {
             case 0:
-                return currentlyFragment;
+                return currentFragment;
             case 1:
                 return hourlyFragment;
             case 2:

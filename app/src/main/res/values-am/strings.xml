@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zinab</string>
+
+    <string name="language">ቋንቋ</string>
+    <string name="cancel">ይቅር</string>
+    <string name="settings">ቀመሮች</string>
+    <string name="unit">Unit</string>
+
+    <string name="wind">Wind</string>
+    <string name="sunset">Sunset</string>
+    <string name="chance">Chance</string>
+    <string name="humidity">Humidity</string>
+
+    <string name="low">ዝቅተኛ</string>
+    <string name="high">ከፍተኛ</string>
+    <string name="today">ዛሬ</string>
+</resources>

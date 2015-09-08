@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/content"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:ignore="MissingPrefix">
 
     <TextView
         android:id="@+id/current_temp"
@@ -13,7 +15,8 @@
         android:layout_marginTop="20dp"
         android:text="18°"
         android:textColor="#fff"
-        android:textSize="50sp" />
+        android:textSize="50sp"
+        fontPath="fonts/Bariol_Regular.otf"/>
 
     <TextView
         android:id="@+id/low_temp"
@@ -23,7 +26,8 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/current_temp"
         android:text="LOW 14°"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        fontPath="fonts/Bariol_Regular.otf"/>
 
     <TextView
         android:id="@+id/high_temp"
@@ -33,7 +37,8 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/current_temp"
         android:text="HIGH 23°"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        fontPath="fonts/Bariol_Regular.otf"/>
 
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/weather_icon"
@@ -57,7 +62,8 @@
         android:layout_marginTop="10dp"
         android:text="Partly Cloudy"
         android:textColor="#fff"
-        android:textSize="34sp" />
+        android:textSize="34sp"
+        fontPath="fonts/Bariol_Regular.otf" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -97,12 +103,13 @@
                     android:id="@+id/wind_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wind"
+                    android:text="@string/wind"
                     android:layout_toRightOf="@+id/wind_icon"
                     android:layout_marginLeft="10dp"
                     android:layout_below="@+id/wind"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="15sp"
+                    fontPath="fonts/Bariol_Regular.otf"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -129,18 +136,19 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/sunset_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sunset"
+                    android:text="@string/sunset"
                     android:layout_toRightOf="@+id/sunset_icon"
                     android:layout_marginLeft="10dp"
                     android:layout_below="@+id/sunset"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="15sp"
+                    fontPath="fonts/Bariol_Regular.otf"/>
             </RelativeLayout>
 
         </TableRow>
@@ -171,18 +179,19 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <com.joanzapata.iconify.widget.IconTextView
                     android:id="@+id/chance_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chance"
+                    android:text="@string/chance"
                     android:layout_toRightOf="@+id/chance_icon"
                     android:layout_marginLeft="10dp"
                     android:layout_below="@+id/chance"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="15sp"
+                    fontPath="fonts/Bariol_Regular.otf"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -215,12 +224,13 @@
                     android:id="@+id/humidity_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Humidity"
+                    android:text="@string/humidity"
                     android:layout_toRightOf="@+id/humidity_icon"
                     android:layout_marginLeft="10dp"
                     android:layout_below="@+id/humidity"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="15sp"
+                    fontPath="fonts/Bariol_Regular.otf"/>
             </RelativeLayout>
 
         </TableRow>

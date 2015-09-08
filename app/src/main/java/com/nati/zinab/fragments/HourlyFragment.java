@@ -10,15 +10,19 @@ import android.widget.RelativeLayout;
 
 import com.nati.zinab.R;
 import com.nati.zinab.adapters.DailyAdapter;
+import com.nati.zinab.adapters.HourlyAdapter;
 import com.nati.zinab.models.WeatherResponse;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by Nati on 8/28/2015.
  */
 public class HourlyFragment extends Fragment {
 
-    private ListView listView;
-    private RelativeLayout content;
+    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.content) RelativeLayout content;
 
     public static HourlyFragment newInstance() {
         HourlyFragment fragment = new HourlyFragment();
@@ -32,15 +36,14 @@ public class HourlyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hourly_fragment, container, false);
-        content = (RelativeLayout) view.findViewById(R.id.content);
-        listView = (ListView) view.findViewById(R.id.listView);
+        ButterKnife.bind(this, view);
 
         return view;
     }
 
     public void setupUI(WeatherResponse weatherResponse) {
         content.setVisibility(View.VISIBLE);
-        DailyAdapter adapter = new DailyAdapter(getActivity(), weatherResponse.getDaily().getData());
+        HourlyAdapter adapter = new HourlyAdapter(getActivity(), weatherResponse.getHourly().getData());
         listView.setAdapter(adapter);
     }
 }

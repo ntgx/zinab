@@ -1,25 +1,36 @@
 package com.nati.zinab.helpers;
 
-import android.graphics.Typeface;
+import android.app.Application;
+import android.content.Context;
 
 import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.WeathericonsModule;
-import com.orm.SugarApp;
+import com.nati.zinab.R;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-public class ZinabApp extends SugarApp {
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-    public static Typeface primaryFont, weatherFont, forecastFont;
+public class ZinabApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
 
-        Iconify.with(new MaterialModule())
-                .with(new WeathericonsModule());
+        /*CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Bariol_Regular.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());*/
+
+                Iconify
+                .with(new MaterialModule())
+                .with(new WeathericonsModule())
+                .with(new FontAwesomeModule());
 
     }
+
 }

@@ -1,5 +1,9 @@
 package com.nati.zinab.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,20 +12,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.nati.zinab.R;
 import com.nati.zinab.adapters.CitiesAdapter;
 import com.nati.zinab.adapters.HomeTabsAdapter;
-import com.nati.zinab.fragments.CurrentlyFragment;
+import com.nati.zinab.fragments.CurrentFragment;
 import com.nati.zinab.fragments.DailyFragment;
 import com.nati.zinab.fragments.HourlyFragment;
 import com.nati.zinab.helpers.Constants;
@@ -31,59 +39,47 @@ import com.nati.zinab.models.WeatherResponse;
 
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity implements CurrentlyFragment.OnViewCreatedListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-    private ProgressBar progressBar;
-    private City selectedCity;
-    private Toolbar toolbar;
-    private TabLayout tabs;
+public class MainActivity extends AppCompatActivity implements CurrentFragment.OnViewCreatedListener {
 
-    private ViewPager viewPager;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tabLayout) TabLayout tabs;
+    @Bind(R.id.pager) ViewPager viewPager;
+    @Bind(R.id.selected_city) TextView selectedCityTv;
+
     private HomeTabsAdapter adapter;
-    private CurrentlyFragment currentlyFragment;
+    private CurrentFragment currentFragment;
     private HourlyFragment hourlyFragment;
     private DailyFragment dailyFragment;
+    private AlertDialog citiesDialog;
+    private City[] cities;
+    private City selectedCity;
+    private static final String CITY_PREF_KEY = "selectedCityIndex";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         StaticMethods.loadLocale(getBaseContext());
+        cities = City.getCities(this);
+        SharedPreferences prefs = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        selectedCity = cities[prefs.getInt(CITY_PREF_KEY, 0)];
 
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
-
-        final Spinner citiesSpinner = (Spinner) findViewById(R.id.cities_spinner);
-
-        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, City.getCities(this));
-        citiesSpinner.setAdapter(citiesAdapter);
-
-        citiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                try {
-                    selectedCity = (City) citiesSpinner.getSelectedItem();
-                    currentlyFragment.hideUI();
-                    loadWeather();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        selectedCityTv.setText(selectedCity.getName());
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
         setupTabs();
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        selectedCity = (City) citiesSpinner.getSelectedItem();
     }
 
     /*private void blurBackground() {
@@ -142,10 +138,10 @@ public class MainActivity extends AppCompatActivity implements CurrentlyFragment
     }
 
     private void setupUI(WeatherResponse weatherResponse) {
-        currentlyFragment = (CurrentlyFragment) adapter.getItem(0);
+        currentFragment = (CurrentFragment) adapter.getItem(0);
         hourlyFragment = (HourlyFragment) adapter.getItem(1);
         dailyFragment = (DailyFragment) adapter.getItem(2);
-        currentlyFragment.setupUI(weatherResponse);
+        currentFragment.setupUI(weatherResponse);
         hourlyFragment.setupUI(weatherResponse);
         dailyFragment.setupUI(weatherResponse);
     }
@@ -154,22 +150,65 @@ public class MainActivity extends AppCompatActivity implements CurrentlyFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.action_settings).setIcon(
+                new IconDrawable(this, MaterialIcons.md_settings)
+                        .colorRes(R.color.white)
+                        .actionBarSize());
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent i = new Intent(this, Settings.class);
+                startActivity(i);
+                break;
+        }
         return true;
     }
 
     private void setupTabs() {
-        tabs = (TabLayout) findViewById(R.id.tabLayout);
         tabs.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabs.addTab(tabs.newTab().setText("አሁን"));
-        tabs.addTab(tabs.newTab().setText("Hourly"));
-        tabs.addTab(tabs.newTab().setText("Daily"));
-
-        viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setOffscreenPageLimit(3);
-        adapter = new HomeTabsAdapter(getSupportFragmentManager());
+        adapter = new HomeTabsAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
 
+    }
+
+    @OnClick(R.id.selected_city)
+    public void showCitiesDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(getLayoutInflater().inflate(R.layout.cities_dialog, null));
+        citiesDialog = builder.create();
+        citiesDialog.show();
+
+        final ListView list = (ListView) citiesDialog.findViewById(R.id.list);
+        list.setDivider(null);
+
+        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, cities);
+        list.setAdapter(citiesAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                citiesDialog.dismiss();
+                selectedCity = (City) list.getAdapter().getItem(i);
+                SharedPreferences prefs = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt(CITY_PREF_KEY, i);
+                editor.apply();
+                selectedCityTv.setText(selectedCity.getName());
+                currentFragment.hideUI();
+                loadWeather();
+            }
+        });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

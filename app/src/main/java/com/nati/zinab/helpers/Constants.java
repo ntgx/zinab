@@ -1,7 +1,7 @@
 package com.nati.zinab.helpers;
 
 public class Constants {
-	public static final String GOTHAM_FONT = "gotham-bok.ttf";
+	public static final String GOTHAM_FONT = "gotham.ttf";
 
     public static final String BASE_URL = "https://api.forecast.io/forecast/";
     public static final String OPTIONS = "?units=si&exclude=flags";

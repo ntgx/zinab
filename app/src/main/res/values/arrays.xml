@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>አማርኛ</item>
+    </string-array>
+    <string-array name="language_listValues" translatable="false">
+        <item>en</item>
+        <item>am</item>
+    </string-array>
+    <string-array name="caltypes">
+        <item>Ethiopian</item>
+        <item>Gregorian</item>
+    </string-array>
+    <string-array name="caltype_listValues" translatable="false">
+        <item>et</item>
+        <item>gr</item>
+    </string-array>
+    <string-array name="tabs">
+        <item>Current</item>
+        <item>Hourly</item>
+        <item>Daily</item>
+    </string-array>
+
+</resources>

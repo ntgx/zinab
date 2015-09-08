@@ -13,13 +13,16 @@ import com.nati.zinab.activities.MainActivity;
 import com.nati.zinab.adapters.DailyAdapter;
 import com.nati.zinab.models.WeatherResponse;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Nati on 8/28/2015.
  */
 public class DailyFragment extends Fragment {
 
-    private ListView listView;
-    private RelativeLayout content;
+    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.content) RelativeLayout content;
 
     public static DailyFragment newInstance() {
         DailyFragment fragment = new DailyFragment();
@@ -33,18 +36,10 @@ public class DailyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_fragment, container, false);
-        content = (RelativeLayout) view.findViewById(R.id.content);
-        listView = (ListView) view.findViewById(R.id.listView);
+        ButterKnife.bind(this, view);
 
         return view;
     }
-
-    /*@Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        listener.loadWeather();
-        setupUI(((MainActivity)getActivity()).getWeatherResponse());
-    }*/
 
     public void setupUI(WeatherResponse weatherResponse) {
         content.setVisibility(View.VISIBLE);

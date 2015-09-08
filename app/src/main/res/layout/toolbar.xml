@@ -11,13 +11,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/cities_spinner"
+        <TextView
+            android:id="@+id/selected_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"/>
+            android:textColor="#fff"
+            android:textSize="21sp"
+            fontPath="fonts/Bariol_Regular.otf"/>
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="{fa-caret-down}"
+            android:textColor="#fff"
+            android:textSize="17sp"
+            android:layout_marginLeft="5dp"/>
+
     </LinearLayout>
 
 </android.support.v7.widget.Toolbar>

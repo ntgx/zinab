@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -58,5 +59,40 @@ public class StaticMethods {
 		config.locale = myLocale;
 		context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
 	}
-	
+
+	public static void setupWeatherIcon(String icon, TextView weatherIcon) {
+		//TODO: set main bg here as well
+		switch(icon){
+			case "clear-day":
+				weatherIcon.setText("{wi_forecast_io_clear_day}");
+				break;
+			case "clear-night":
+				weatherIcon.setText("{wi_forecast_io_clear_night}");
+				break;
+			case "rain":
+				weatherIcon.setText("{wi_forecast_io_rain}");
+				break;
+			case "snow":
+				weatherIcon.setText("{wi_forecast_io_snow}");
+				break;
+			case "sleet":
+				weatherIcon.setText("{wi_forecast_io_sleet}");
+				break;
+			case "wind":
+				weatherIcon.setText("{wi_forecast_io_wind}");
+				break;
+			case "fog":
+				weatherIcon.setText("{wi_forecast_io_fog}");
+				break;
+			case "cloudy":
+				weatherIcon.setText("{wi_forecast_io_cloudy}");
+				break;
+			case "partly-cloudy-day":
+				weatherIcon.setText("{wi_forecast_io_partly_cloudy_day}");
+				break;
+			case "partly-cloudy-night":
+				weatherIcon.setText("{wi_forecast_io_partly_cloudy_night}");
+				break;
+		}
+	}
 }

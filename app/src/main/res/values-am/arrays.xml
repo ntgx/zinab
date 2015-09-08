@@ -1,0 +1,16 @@
+<resources>
+    <string-array name="languages">
+        <item>English</item>
+        <item>አማርኛ</item>
+    </string-array>
+    <string-array name="caltypes">
+        <item>የኢትዮጵያ</item>
+        <item>ግሪጎሪያን</item>
+    </string-array>
+
+    <string-array name="tabs">
+        <item>አሁን</item>
+        <item>Hourly</item>
+        <item>Daily</item>
+    </string-array>
+</resources>

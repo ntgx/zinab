@@ -1,7 +1,6 @@
 package com.nati.zinab.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nati.zinab.R;
-import com.nati.zinab.helpers.Constants;
 import com.nati.zinab.models.City;
 
 public class CitiesAdapter extends BaseAdapter {
@@ -32,7 +30,7 @@ public class CitiesAdapter extends BaseAdapter {
 
         View view = convertView;
         if (convertView == null) {
-            view = inflater.inflate(R.layout.citycode_list_item, parent, false);
+            view = inflater.inflate(R.layout.city_list_item, parent, false);
         }
 
         city = items[position];
