@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="25dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Partly Cloudy"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        fontPath="fonts/Bariol_Regular.otf"/>
+
+    <TextView
+        android:id="@+id/wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="sunrise"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        fontPath="fonts/Bariol_Regular.otf"/>
+
+    <TextView
+        android:id="@+id/chance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="chance"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        fontPath="fonts/Bariol_Regular.otf"/>
+
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="humidity"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        fontPath="fonts/Bariol_Regular.otf"/>
+
+    <TextView
+        android:id="@+id/cloud_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="cloud cover"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        fontPath="fonts/Bariol_Regular.otf"/>
+
+</LinearLayout>

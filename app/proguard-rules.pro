@@ -26,7 +26,6 @@
 -keep public class android.support.design.R$* { *; }
 
 -dontwarn com.google.android.gms.analytics.**
--dontwarn com.google.android.gms.maps.**
 -dontwarn org.joda.time.**
 
 ## GSON 2.2.4 specific rules ##
@@ -52,6 +51,9 @@
 
 -dontwarn kotlin.**
 -dontwarn org.w3c.dom.events.*
+
+#-keep class org.jasypt.** { *; }
+-dontwarn org.jasypt.**
 
 #butterknife stuff
 -keep class butterknife.** { *; }

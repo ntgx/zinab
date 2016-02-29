@@ -8,19 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.nati.zinab.R;
+import com.nati.zinab.helpers.Constants;
 import com.nati.zinab.models.City;
 
 public class CitiesAdapter extends BaseAdapter {
 
     private final Context context;
-    City[] items;
-    LayoutInflater inflater;
-    City city;
+    private City[] items;
+    private LayoutInflater inflater;
+    private City city;
+    private String language;
 
-    public CitiesAdapter(Context context, City[] items) {
+    public CitiesAdapter(Context context, City[] items, String language) {
 
         this.context = context;
         this.items = items;
+        this.language = language;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.items = items;
     }
@@ -36,7 +39,12 @@ public class CitiesAdapter extends BaseAdapter {
         city = items[position];
 
         TextView cityName = (TextView) view.findViewById(R.id.city_name);
-        cityName.setText(city.getName());
+
+        if(language.equals(Constants.LANGUAGE_ENGLISH)) {
+            cityName.setText(city.getName());
+        }else{
+            cityName.setText(city.getAmharicName());
+        }
 
         return view;
     }

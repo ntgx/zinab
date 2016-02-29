@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="clear_day">ጸሃይ</string>
+    <string name="clear_night">ጥርት ያለ ሰማይ</string>
+    <string name="partly_cloudy">ከፊል ደመናማ</string>
+    <string name="cloudy">ደመናማ</string>
+    <string name="mostly_cloudy">ደመናማ</string>
+    <string name="rain">ዝናብ</string>
+    <string name="very_light_rain">ቀላል ዝናብ</string>
+    <string name="light_rain">ቀላል ዝናብ</string>
+    <string name="heavy_rain">ከባድ ዝናብ</string>
+
+</resources>

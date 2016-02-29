@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nati.zinab.R;
@@ -16,13 +17,12 @@ import com.nati.zinab.models.WeatherResponse;
 
 import org.joda.time.DateTime;
 
-import java.text.DateFormatSymbols;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by Nati on 8/28/2015.
+ * Current weather fragment. This is the class tha calls load weather when its created
  */
 public class CurrentFragment extends Fragment {
 
@@ -35,9 +35,8 @@ public class CurrentFragment extends Fragment {
     @Bind(R.id.sunset) TextView sunset;
     @Bind(R.id.chance) TextView chance;
     @Bind(R.id.humidity) TextView humidity;
-    @Bind(R.id.content) RelativeLayout content;
+    @Bind(R.id.content) ScrollView content;
 
-    private String[] amPmTexts;
     private OnViewCreatedListener listener;
 
     public static CurrentFragment newInstance() {
@@ -66,7 +65,6 @@ public class CurrentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        amPmTexts = new DateFormatSymbols().getAmPmStrings();
     }
 
     @Override
@@ -87,7 +85,7 @@ public class CurrentFragment extends Fragment {
 
     public void setupUI(WeatherResponse weatherResponse) {
         content.setVisibility(View.VISIBLE);
-        weatherDescription.setText(weatherResponse.getCurrently().getSummary());
+        weatherDescription.setText(StaticMethods.getWeatherDescription(getActivity(), weatherResponse.getCurrently()));
         currentTemp.setText(String.format("%.0f" + Constants.DEGREE, weatherResponse.getCurrently().getTemperature()));
         lowTemp.setText(String.format(getString(R.string.low) + " %.0f" + Constants.DEGREE, weatherResponse.getDaily().getData().get(0).getTemperatureMin()));
         highTemp.setText(String.format(getString(R.string.high) + " %.0f" + Constants.DEGREE, weatherResponse.getDaily().getData().get(0).getTemperatureMax()));
@@ -97,33 +95,11 @@ public class CurrentFragment extends Fragment {
         StaticMethods.setupWeatherIcon(weatherResponse.getCurrently().getIcon(), weatherIcon);
 
         DateTime dateTime = new DateTime(weatherResponse.getDaily().getData().get(0).getSunsetTime() * 1000L);
-        sunset.setText(formattedReminderTime(dateTime.getHourOfDay(), dateTime.getMinuteOfHour(), false));
+        sunset.setText(StaticMethods.formattedTime(getActivity(), dateTime, true));
     }
 
     public void hideUI(){
         content.setVisibility(View.GONE);
-    }
-
-    private String formattedReminderTime(int hour, int minute, boolean is24HourFormat) {
-        String reminderTime;
-        if(is24HourFormat) {
-            reminderTime = String.format("%02d:%02d", hour, minute);
-        }
-        else{
-            if(hour == 12){
-                reminderTime = String.format("%02d:%02d %s", hour, minute, amPmTexts[1]);
-            }
-
-            else if(hour > 12) {
-                hour -= 12;
-                reminderTime = String.format("%02d:%02d %s", hour, minute, amPmTexts[1]);
-            }
-
-            else
-                reminderTime = String.format("%02d:%02d %s", hour, minute, amPmTexts[0]);
-        }
-
-        return reminderTime;
     }
 
 }

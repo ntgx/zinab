@@ -10,7 +10,7 @@
 
     <string-array name="tabs">
         <item>አሁን</item>
-        <item>Hourly</item>
-        <item>Daily</item>
+        <item>የየሰአቱ</item>
+        <item>የየቀኑ</item>
     </string-array>
 </resources>

@@ -7,6 +7,7 @@
     <string name="unit">Unit</string>
 
     <string name="wind">Wind</string>
+    <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
     <string name="chance">Chance</string>
     <string name="humidity">Humidity</string>
@@ -14,5 +15,10 @@
     <string name="low">LOW</string>
     <string name="high">HIGH</string>
     <string name="today">Today</string>
+    <string name="ok">Ok</string>
+    <string name="cloud_cover">Cloud Cover</string>
+    <string name="try_again">Try Again</string>
+
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7875693704386136/1911515003</string>
 
 </resources>

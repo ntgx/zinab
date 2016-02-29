@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.InputStream;
 
@@ -12,6 +13,8 @@ import java.io.InputStream;
  */
 public class City {
     private String name;
+    @SerializedName("name_am")
+    private String amharicName;
     private float lat, lng;
 
     public String getName() {
@@ -57,5 +60,13 @@ public class City {
     public static City[] getCities(Context context) {
         String json = loadJsonFromAsset(context);
         return new Gson().fromJson(json, City[].class);
+    }
+
+    public String getAmharicName() {
+        return amharicName;
+    }
+
+    public void setAmharicName(String amharicName) {
+        this.amharicName = amharicName;
     }
 }

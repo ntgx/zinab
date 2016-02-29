@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="clear_day">Sunny</string>
+    <string name="clear_night">Clear</string>
+    <string name="partly_cloudy">Partly Cloudy</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="mostly_cloudy">Mostly Cloudy</string>
+    <string name="rain">Rain</string>
+    <string name="very_light_rain">Drizzle</string>
+    <string name="light_rain">Light Rain</string>
+    <string name="heavy_rain">Heavy Rain</string>
+
+</resources>

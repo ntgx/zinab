@@ -4,7 +4,7 @@
     <span style="line-height: 1.5; font-style: inherit; font-weight: inherit;">tools:ignore="TypographyDashes"></span>
 
     <!-- The apps Analytics Tracking Id -->
-    <string name="ga_trackingId">UA-53416288-4</string>
+    <string name="ga_trackingId">UA-53416288-5</string>
 
     <!-- Percentage of events to include in reports -->
     <string name="ga_sampleFrequency">100.0</string>
@@ -24,6 +24,6 @@ substitute for the full length canonical Activity name in screen view hit. In or
 specify an alternate screen name use an <screenName> element, with the name attribute
 specifying the canonical name, and the value the alias to use instead.
     -->
-    <screenName name="com.nati.cal.MainActivity">Main Activity</screenName>
+    <screenName name="com.nati.zinab.MainActivity">Main Activity</screenName>
 
 </resources>

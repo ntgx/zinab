@@ -7,12 +7,16 @@
     <string name="settings">ቀመሮች</string>
     <string name="unit">Unit</string>
 
-    <string name="wind">Wind</string>
-    <string name="sunset">Sunset</string>
-    <string name="chance">Chance</string>
-    <string name="humidity">Humidity</string>
+    <string name="wind">የንፋስ ፍጥነት</string>
+    <string name="sunrise">ጸሃይ መውጫ</string>
+    <string name="sunset">ጸሃይ መግቢያ</string>
+    <string name="chance">የመዝነብ እድል</string>
+    <string name="humidity">የአየር እርጥበት</string>
 
     <string name="low">ዝቅተኛ</string>
     <string name="high">ከፍተኛ</string>
     <string name="today">ዛሬ</string>
+    <string name="ok">እሺ</string>
+    <string name="cloud_cover">የደመና ሽፋን</string>
+    <string name="try_again">እንደገና ይሞክሩ</string>
 </resources>

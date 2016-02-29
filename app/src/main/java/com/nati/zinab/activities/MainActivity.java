@@ -2,8 +2,10 @@ package com.nati.zinab.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,11 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.joanzapata.iconify.IconDrawable;
@@ -34,8 +43,11 @@ import com.nati.zinab.fragments.DailyFragment;
 import com.nati.zinab.fragments.HourlyFragment;
 import com.nati.zinab.helpers.Constants;
 import com.nati.zinab.helpers.StaticMethods;
+import com.nati.zinab.helpers.ZinabApp;
 import com.nati.zinab.models.City;
 import com.nati.zinab.models.WeatherResponse;
+
+import org.jasypt.util.text.BasicTextEncryptor;
 
 import java.io.InputStream;
 
@@ -51,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     @Bind(R.id.tabLayout) TabLayout tabs;
     @Bind(R.id.pager) ViewPager viewPager;
     @Bind(R.id.selected_city) TextView selectedCityTv;
+    @Bind(R.id.errorLayout) RelativeLayout errorLayout;
+    @Bind(R.id.try_again) Button tryAgain;
+    @Bind(R.id.powered_by) TextView poweredBy;
 
     private HomeTabsAdapter adapter;
     private CurrentFragment currentFragment;
@@ -59,13 +74,19 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     private AlertDialog citiesDialog;
     private City[] cities;
     private City selectedCity;
+    private String language;
     private static final String CITY_PREF_KEY = "selectedCityIndex";
+    private AlertDialog languagePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StaticMethods.loadLocale(getBaseContext());
+        Tracker t = ((ZinabApp) getApplication()).getTracker(ZinabApp.TrackerName.APP_TRACKER);
+        t.enableAdvertisingIdCollection(true);// to enable demographics tracking stuff
+
+        StaticMethods.loadLocale(this);
+        language = StaticMethods.getLanguage(this);
         cities = City.getCities(this);
         SharedPreferences prefs = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         selectedCity = cities[prefs.getInt(CITY_PREF_KEY, 0)];
@@ -73,68 +94,106 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        checkFirstTime();
+
         setSupportActionBar(toolbar);
-        selectedCityTv.setText(selectedCity.getName());
+        setSelectedCityTvText();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
         setupTabs();
+        setupAds();
     }
 
-    /*private void blurBackground() {
-        Blurry.with(MainActivity.this)
-                .radius(25)
-                .sampling(2)
-                .async()
-                .animate(500)
-                .onto((ViewGroup) findViewById(R.id.content));
-    }*/
-
-    private void load() {
-        progressBar.setVisibility(View.GONE);
-
-        String json = null;
+    private void setupAds() {
         try {
-            InputStream is = getAssets().open("response.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
+            final AdView adView = (AdView) this.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                    adView.setVisibility(View.VISIBLE);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        WeatherResponse weatherResponse = new Gson().fromJson(json, WeatherResponse.class);
-        setupUI(weatherResponse);
     }
 
+    @OnClick(R.id.try_again)
     public void loadWeather() {
-        if (StaticMethods.checkConnection(this)) {
-            progressBar.setVisibility(View.VISIBLE);
-            Ion.with(getBaseContext())
-                    .load(Constants.BASE_URL + Constants.API_KEY
-                            + "/" + selectedCity.getLat() + "," + selectedCity.getLng() + Constants.OPTIONS)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            progressBar.setVisibility(View.GONE);
-                            if (e != null) {
-                                e.printStackTrace();
-                            }
-
-                            if (result != null) {
-                                Log.d("hey", result.toString());
-                                WeatherResponse weatherResponse = new Gson().fromJson(result, WeatherResponse.class);
-                                setupUI(weatherResponse);
-                            }
+        progressBar.setVisibility(View.VISIBLE);
+        hideErrorLayout();
+        Ion.with(getBaseContext())
+            .load(Constants.BASE_URL + StaticMethods.decrypt(Constants.API_KEY, getBaseContext())
+                    + "/" + selectedCity.getLat() + "," + selectedCity.getLng() + Constants.OPTIONS)
+            .asJsonObject()
+            .setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    progressBar.setVisibility(View.GONE);
+                    if (e != null) {
+                        if (!StaticMethods.checkConnection(getBaseContext())) {
+                            Toast.makeText(getBaseContext(), "Please connect to the internet and try again!",
+                                    Toast.LENGTH_SHORT).show();
                         }
-                    });
-        } else {
-            Toast.makeText(this, "Please connect to the internet and try again!", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                        showErrorLayout();
+                    }
+
+                    if (result != null) {
+                        Log.d("hey", result.toString());
+                        WeatherResponse weatherResponse = new Gson().fromJson(result, WeatherResponse.class);
+                        setupUI(weatherResponse);
+                    }
+                }
+            });
+    }
+
+    private void showErrorLayout() {
+        errorLayout.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
+    }
+
+    private void hideErrorLayout() {
+        errorLayout.setVisibility(View.GONE);
+        viewPager.setVisibility(View.VISIBLE);
+    }
+
+    private void checkFirstTime() {
+        SharedPreferences prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        if(prefs.getBoolean("firstRun", true)){
+            showLanguageDialog();
+            prefs.edit().putBoolean("firstRun", false).apply();
         }
+    }
+
+    private void showLanguageDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Language")
+                .setSingleChoiceItems(R.array.languages, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 0) {//default lang is amharic and if language is set to english restart activity
+                            setLanguageAndRestart(Constants.LANGUAGE_ENGLISH);
+                        } else {
+                            languagePickerDialog.dismiss();
+                        }
+                    }
+                });
+        languagePickerDialog = builder.create();
+        languagePickerDialog.show();
+    }
+
+    private void setLanguageAndRestart(String lang) {
+        StaticMethods.setLanguage(this, lang);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        languagePickerDialog.dismiss();
     }
 
     private void setupUI(WeatherResponse weatherResponse) {
@@ -177,6 +236,14 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
 
     }
 
+    public void setSelectedCityTvText() {
+        if(language.equals(Constants.LANGUAGE_ENGLISH)) {
+            selectedCityTv.setText(selectedCity.getName());
+        }else{
+            selectedCityTv.setText(selectedCity.getAmharicName());
+        }
+    }
+
     @OnClick(R.id.selected_city)
     public void showCitiesDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -187,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
         final ListView list = (ListView) citiesDialog.findViewById(R.id.list);
         list.setDivider(null);
 
-        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, cities);
+        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, cities, language);
         list.setAdapter(citiesAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,16 +266,44 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt(CITY_PREF_KEY, i);
                 editor.apply();
-                selectedCityTv.setText(selectedCity.getName());
-                currentFragment.hideUI();
+                setSelectedCityTvText();
+                if (currentFragment != null) {
+                    currentFragment.hideUI();
+                    hourlyFragment.hideUI();
+                    dailyFragment.hideUI();
+                }
                 loadWeather();
             }
         });
     }
 
+    @OnClick(R.id.powered_by)
+    public void openForcastIo(){
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://forecast.io"));
+            startActivity(i);
+        }catch(Exception e){
+            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
 }

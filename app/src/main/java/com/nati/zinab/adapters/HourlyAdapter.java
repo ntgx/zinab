@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nati.zinab.R;
 import com.nati.zinab.fragments.DailyFragment;
+import com.nati.zinab.helpers.Constants;
 import com.nati.zinab.helpers.StaticMethods;
 import com.nati.zinab.models.DataBlock;
 import com.nati.zinab.models.DataPoint;
@@ -64,10 +65,7 @@ public class HourlyAdapter extends BaseAdapter {
 
         DataPoint item = items.get(position);
         DateTime dateTime = new DateTime(item.getTime() * 1000L);
-
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("E ha");
-        String date = fmt.print(dateTime);
-        holder.day.setText(date);
+        holder.day.setText(StaticMethods.formattedTime(context, dateTime, false));
 
         StaticMethods.setupWeatherIcon(item.getIcon(), holder.icon);
         holder.temp.setText(String.format("%.0f°", item.getTemperature()));
