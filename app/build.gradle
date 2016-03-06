@@ -14,7 +14,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles 'C:\\Users\\Nati\\Android SDK\\sdk\\tools\\proguard\\proguard-android.txt', 'proguard-rules.pro'
+            //proguardFiles 'C:\\Users\\Nati\\Android SDK\\sdk\\tools\\proguard\\proguard-android.txt', 'proguard-rules.pro'
         }
     }
     packagingOptions {
