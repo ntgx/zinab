@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import com.google.gson.Gson;
 import com.nati.zinab.R;
 import com.nati.zinab.adapters.CitiesAdapter;
+import com.nati.zinab.helpers.StaticMethods;
 import com.nati.zinab.models.City;
 
 public class PickCityActivity extends AppCompatActivity {
@@ -21,7 +22,7 @@ public class PickCityActivity extends AppCompatActivity {
         final Spinner citiesSpinner = (Spinner) findViewById(R.id.cities_spinner);
         Button pickButton = (Button) findViewById(R.id.pick_button);
 
-        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, City.getCities(this));
+        final CitiesAdapter citiesAdapter = new CitiesAdapter(this, City.getCities(this), StaticMethods.getLanguage(this));
         citiesSpinner.setAdapter(citiesAdapter);
 
         pickButton.setOnClickListener(new View.OnClickListener() {

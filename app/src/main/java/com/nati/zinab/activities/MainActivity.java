@@ -47,9 +47,7 @@ import com.nati.zinab.helpers.ZinabApp;
 import com.nati.zinab.models.City;
 import com.nati.zinab.models.WeatherResponse;
 
-import org.jasypt.util.text.BasicTextEncryptor;
-
-import java.io.InputStream;
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     @Bind(R.id.errorLayout) RelativeLayout errorLayout;
     @Bind(R.id.try_again) Button tryAgain;
     @Bind(R.id.powered_by) TextView poweredBy;
+    @Bind(R.id.adView) AdView adView;
 
     private HomeTabsAdapter adapter;
     private CurrentFragment currentFragment;
@@ -78,8 +77,13 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     private static final String CITY_PREF_KEY = "selectedCityIndex";
     private AlertDialog languagePickerDialog;
 
+    @Inject SharedPreferences prefs;
+    @Inject AdRequest adRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((ZinabApp) getApplication()).getComponent().inject(this);
+
         super.onCreate(savedInstanceState);
 
         Tracker t = ((ZinabApp) getApplication()).getTracker(ZinabApp.TrackerName.APP_TRACKER);
@@ -88,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
         StaticMethods.loadLocale(this);
         language = StaticMethods.getLanguage(this);
         cities = City.getCities(this);
-        SharedPreferences prefs = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         selectedCity = cities[prefs.getInt(CITY_PREF_KEY, 0)];
 
         setContentView(R.layout.activity_main);
@@ -108,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
 
     private void setupAds() {
         try {
-            final AdView adView = (AdView) this.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
             adView.setAdListener(new AdListener() {
                 @Override
@@ -164,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     }
 
     private void checkFirstTime() {
-        SharedPreferences prefs = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         if(prefs.getBoolean("firstRun", true)){
             showLanguageDialog();
             prefs.edit().putBoolean("firstRun", false).apply();
@@ -262,10 +262,7 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 citiesDialog.dismiss();
                 selectedCity = (City) list.getAdapter().getItem(i);
-                SharedPreferences prefs = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt(CITY_PREF_KEY, i);
-                editor.apply();
+                prefs.edit().putInt(CITY_PREF_KEY, i).apply();
                 setSelectedCityTvText();
                 if (currentFragment != null) {
                     currentFragment.hideUI();

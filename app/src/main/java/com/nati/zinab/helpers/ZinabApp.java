@@ -8,6 +8,9 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.WeathericonsModule;
 import com.nati.zinab.R;
+import com.nati.zinab.dagger.AppComponent;
+import com.nati.zinab.dagger.AppModule;
+import com.nati.zinab.dagger.DaggerAppComponent;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -17,24 +20,24 @@ public class ZinabApp extends Application {
 
     HashMap<TrackerName, Tracker> mTrackers = new HashMap<>();
 
+    private AppComponent component;
+
     @Override
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
 
-        /*CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Bariol_Regular.otf")
-                .setFontAttrId(R.attr.fontPath)
-                .build());*/
+        Iconify
+            .with(new MaterialModule())
+            .with(new WeathericonsModule());
 
-                Iconify
-                .with(new MaterialModule())
-                .with(new WeathericonsModule());
+        component = DaggerAppComponent.builder()
+                .appModule(new AppModule(this)).build();
 
     }
 
-    public ZinabApp() {
-
+    public AppComponent getComponent() {
+        return component;
     }
 
     public enum TrackerName {
