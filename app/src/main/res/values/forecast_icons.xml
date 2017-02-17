@@ -1,24 +1,24 @@
 <resources>
-    <string name="icon_night">&#xf100;</string>
-    <string name="icon_sunny">&#xf101;</string>
-    <string name="icon_frosty">&#xf102;</string>
-    <string name="icon_windysnow">&#xf103;</string>
-    <string name="icon_showers">&#xf104;</string>
-    <string name="icon_basecloud">&#xf105;</string>
-    <string name="icon_cloud">&#xf106;</string>
-    <string name="icon_rainy">&#xf107;</string>
-    <string name="icon_mist">&#xf108;</string>
-    <string name="icon_windysnowcloud">&#xf109;</string>
-    <string name="icon_drizzle">&#xf10a;</string>
-    <string name="icon_snowy">&#xf10b;</string>
-    <string name="icon_sleet">&#xf10c;</string>
-    <string name="icon_moon">&#xf10d;</string>
-    <string name="icon_windyrain">&#xf10e;</string>
-    <string name="icon_hail">&#xf10f;</string>
-    <string name="icon_sunset">&#xf110;</string>
-    <string name="icon_windyraincloud">&#xf111;</string>
-    <string name="icon_sunrise">&#xf112;</string>
-    <string name="icon_sun">&#xf101;;</string>
-    <string name="icon_thunder">&#xf114;</string>
-    <string name="icon_windy">&#xf115;</string>
+    <string name="icon_night" translatable="false">&#xf100;</string>
+    <string name="icon_sunny" translatable="false">&#xf101;</string>
+    <string name="icon_frosty" translatable="false">&#xf102;</string>
+    <string name="icon_windysnow" translatable="false">&#xf103;</string>
+    <string name="icon_showers" translatable="false">&#xf104;</string>
+    <string name="icon_basecloud" translatable="false">&#xf105;</string>
+    <string name="icon_cloud" translatable="false">&#xf106;</string>
+    <string name="icon_rainy" translatable="false">&#xf107;</string>
+    <string name="icon_mist" translatable="false">&#xf108;</string>
+    <string name="icon_windysnowcloud" translatable="false">&#xf109;</string>
+    <string name="icon_drizzle" translatable="false">&#xf10a;</string>
+    <string name="icon_snowy" translatable="false">&#xf10b;</string>
+    <string name="icon_sleet" translatable="false">&#xf10c;</string>
+    <string name="icon_moon" translatable="false">&#xf10d;</string>
+    <string name="icon_windyrain" translatable="false">&#xf10e;</string>
+    <string name="icon_hail" translatable="false">&#xf10f;</string>
+    <string name="icon_sunset" translatable="false">&#xf110;</string>
+    <string name="icon_windyraincloud" translatable="false">&#xf111;</string>
+    <string name="icon_sunrise" translatable="false">&#xf112;</string>
+    <string name="icon_sun" translatable="false">&#xf101;;</string>
+    <string name="icon_thunder" translatable="false">&#xf114;</string>
+    <string name="icon_windy" translatable="false">&#xf115;</string>
 </resources>

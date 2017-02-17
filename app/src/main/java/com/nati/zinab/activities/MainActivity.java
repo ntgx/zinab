@@ -233,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
         adapter = new HomeTabsAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
-
     }
 
     public void setSelectedCityTvText() {
