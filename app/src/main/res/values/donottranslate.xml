@@ -1,4 +1,28 @@
 <resources>
+    <string name="icon_night">&#xf100;</string>
+    <string name="icon_sunny">&#xf101;</string>
+    <string name="icon_frosty">&#xf102;</string>
+    <string name="icon_windysnow">&#xf103;</string>
+    <string name="icon_showers">&#xf104;</string>
+    <string name="icon_basecloud">&#xf105;</string>
+    <string name="icon_cloud">&#xf106;</string>
+    <string name="icon_rainy">&#xf107;</string>
+    <string name="icon_mist">&#xf108;</string>
+    <string name="icon_windysnowcloud">&#xf109;</string>
+    <string name="icon_drizzle">&#xf10a;</string>
+    <string name="icon_snowy">&#xf10b;</string>
+    <string name="icon_sleet">&#xf10c;</string>
+    <string name="icon_moon">&#xf10d;</string>
+    <string name="icon_windyrain">&#xf10e;</string>
+    <string name="icon_hail">&#xf10f;</string>
+    <string name="icon_sunset">&#xf110;</string>
+    <string name="icon_windyraincloud">&#xf111;</string>
+    <string name="icon_sunrise">&#xf112;</string>
+    <string name="icon_sun">&#xf101;;</string>
+    <string name="icon_thunder">&#xf114;</string>
+    <string name="icon_windy">&#xf115;</string>
+
+
     <string name="wi_day_cloudy_gusts">&#xf000;</string>
     <string name="wi_day_cloudy_windy">&#xf001;</string>
     <string name="wi_day_cloudy">&#xf002;</string>

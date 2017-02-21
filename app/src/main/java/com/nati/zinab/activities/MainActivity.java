@@ -29,12 +29,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.nati.zinab.R;
 import com.nati.zinab.adapters.CitiesAdapter;
 import com.nati.zinab.adapters.HomeTabsAdapter;
@@ -43,6 +39,7 @@ import com.nati.zinab.fragments.DailyFragment;
 import com.nati.zinab.fragments.HourlyFragment;
 import com.nati.zinab.helpers.Constants;
 import com.nati.zinab.helpers.StaticMethods;
+import com.nati.zinab.helpers.WeatherService;
 import com.nati.zinab.helpers.ZinabApp;
 import com.nati.zinab.models.City;
 import com.nati.zinab.models.WeatherResponse;
@@ -52,9 +49,13 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements CurrentFragment.OnViewCreatedListener {
+public class MainActivity extends AppCompatActivity implements CurrentFragment.OnViewCreatedListener, Callback<WeatherResponse> {
 
     @Bind(R.id.progressBar) ProgressBar progressBar;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
 
     @Inject SharedPreferences prefs;
     @Inject AdRequest adRequest;
+    @Inject Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,30 +130,36 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
     public void loadWeather() {
         progressBar.setVisibility(View.VISIBLE);
         hideErrorLayout();
-        Ion.with(getBaseContext())
-            .load(Constants.BASE_URL + StaticMethods.decrypt(Constants.API_KEY, getBaseContext())
-                    + "/" + selectedCity.getLat() + "," + selectedCity.getLng() + Constants.OPTIONS)
-            .asJsonObject()
-            .setCallback(new FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, JsonObject result) {
-                    progressBar.setVisibility(View.GONE);
-                    if (e != null) {
-                        if (!StaticMethods.checkConnection(getBaseContext())) {
-                            Toast.makeText(getBaseContext(), "Please connect to the internet and try again!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        e.printStackTrace();
-                        showErrorLayout();
-                    }
 
-                    if (result != null) {
-                        Log.d("hey", result.toString());
-                        WeatherResponse weatherResponse = new Gson().fromJson(result, WeatherResponse.class);
-                        setupUI(weatherResponse);
-                    }
-                }
-            });
+        WeatherService weatherService = retrofit.create(WeatherService.class);
+
+        Call<WeatherResponse> call = weatherService
+                .search(StaticMethods.decrypt(Constants.API_KEY, getBaseContext()),
+                        String.valueOf(selectedCity.getLat()),
+                        String.valueOf(selectedCity.getLng()),
+                        "si",
+                        "flags");
+        call.enqueue(this);
+    }
+
+    @Override
+    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+        progressBar.setVisibility(View.GONE);
+        if (response.body() != null) {
+            Log.d("hey", response.body().toString());
+            setupUI(response.body());
+        }
+    }
+
+    @Override
+    public void onFailure(Call<WeatherResponse> call, Throwable t) {
+        progressBar.setVisibility(View.GONE);
+        if (!StaticMethods.checkConnection(getBaseContext())) {
+            Toast.makeText(getBaseContext(), "Please connect to the internet and try again!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        t.printStackTrace();
+        showErrorLayout();
     }
 
     private void showErrorLayout() {
@@ -301,5 +309,4 @@ public class MainActivity extends AppCompatActivity implements CurrentFragment.O
         //Stop the analytics tracking
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
-
 }

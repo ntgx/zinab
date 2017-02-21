@@ -76,7 +76,7 @@
             android:id="@+id/powered_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Powered by forecast.io"
+            android:text="Powered by Dark Sky"
             android:textSize="12sp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

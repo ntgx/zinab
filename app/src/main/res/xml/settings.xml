@@ -7,12 +7,4 @@
      android:summary="Language"
      android:title="@string/language"
      android:defaultValue="en" />
-
-    <!--<ListPreference
-        android:entries="@array/caltypes"
-        android:entryValues="@array/caltype_listValues"
-        android:key="caltype"
-        android:summary="Unit"
-        android:title="@string/unit"
-        android:defaultValue="si" />-->
 </PreferenceScreen>

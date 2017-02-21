@@ -15,17 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep class android.support.v7.app.** { *; }
--keep class android.support.v7.widget.** { *; }
-
--keep interface android.support.v7.** { *; }
-
--dontwarn android.support.design.**
--keep class android.support.design.** { *; }
--keep interface android.support.design.** { *; }
--keep public class android.support.design.R$* { *; }
-
--dontwarn com.google.android.gms.analytics.**
 -dontwarn org.joda.time.**
 
 ## GSON 2.2.4 specific rules ##
@@ -55,7 +44,7 @@
 #-keep class org.jasypt.** { *; }
 -dontwarn org.jasypt.**
 
-#butterknife stuff
+# ButterKnife 7
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
@@ -67,3 +56,25 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+
+
+##Retrofit
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on RoboVM on iOS. Will not be used at runtime.
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
+-keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
+-keepattributes Exceptions
+
+-dontwarn okio.**
+-keep class okio.**
+
+##uncomment to debug proguard
+#-printmapping outputfile.txt
+#-renamesourcefileattribute SourceFile
+#-keepattributes SourceFile,LineNumberTable
+

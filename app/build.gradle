@@ -13,20 +13,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.nati.zinab"
-        minSdkVersion 11
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
             minifyEnabled true
-            //proguardFiles 'C:\\Users\\Nati\\Android SDK\\sdk\\tools\\proguard\\proguard-android.txt', 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     packagingOptions {
@@ -35,19 +35,25 @@ android {
     }
 }
 
+ext {
+    supportLibraryVersion = '25.1.1'
+    playServicesVersion = '10.2.0'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.koushikdutta.ion:ion:2.1.3'
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'net.danlew:android.joda:2.7.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.joanzapata.iconify:android-iconify-material:2.1.1'
     compile 'com.joanzapata.iconify:android-iconify-weathericons:2.1.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'org.jasypt:jasypt:1.9.2'
-    compile 'com.google.android.gms:play-services-ads:8.3.0'
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile "com.google.android.gms:play-services-ads:$playServicesVersion"
+    compile "com.google.android.gms:play-services-analytics:$playServicesVersion"
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'com.google.dagger:dagger:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
